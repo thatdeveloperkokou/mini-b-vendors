@@ -1222,6 +1222,8 @@ export const SupportPage: React.FC<{ lang: Lang; onShowToast: (msg: string) => v
 interface MenuSettingsPageProps {
   lang: Lang;
   vendorMode: 'existing' | 'new';
+  hideBalance?: boolean;
+  onToggleHideBalance?: () => void;
   onToggleLang: (lang: Lang) => void;
   settings: StoreSettings;
   onUpdateSettings: (next: StoreSettings) => void;
@@ -1233,6 +1235,8 @@ interface MenuSettingsPageProps {
 export const MenuSettingsPage: React.FC<MenuSettingsPageProps> = ({
   lang,
   vendorMode,
+  hideBalance = false,
+  onToggleHideBalance,
   onToggleLang,
   settings,
   onUpdateSettings,
@@ -1533,6 +1537,36 @@ export const MenuSettingsPage: React.FC<MenuSettingsPageProps> = ({
               />
             </button>
           </div>
+
+          {onToggleHideBalance && (
+            <div className="rounded-2xl bg-[#F8F7FC] px-3.5 py-3 flex items-center justify-between">
+              <div>
+                <p className="text-xs font-bold text-[#13112B]">
+                  {isFr ? 'Masquer les soldes (Mode discret)' : 'Hide Balances (Privacy Mode)'}
+                </p>
+                <p className="text-[11px] text-[#7C7998]">
+                  {isFr
+                    ? 'Cache vos montants sur le Hub et le Portefeuille'
+                    : 'Masks financial figures on Hub and Wallet'}
+                </p>
+              </div>
+              <button
+                type="button"
+                role="switch"
+                aria-checked={hideBalance}
+                onClick={onToggleHideBalance}
+                className={`w-11 h-6 rounded-full p-0.5 transition-colors ${
+                  hideBalance ? 'bg-[#5433FF]' : 'bg-[#CBD5E1]'
+                }`}
+              >
+                <div
+                  className={`w-5 h-5 rounded-full bg-white transition-transform ${
+                    hideBalance ? 'translate-x-5' : 'translate-x-0'
+                  }`}
+                />
+              </button>
+            </div>
+          )}
 
           <button
             type="button"

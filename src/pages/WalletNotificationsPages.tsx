@@ -28,6 +28,8 @@ interface WalletPageProps {
   vendorMode: 'existing' | 'new';
   balance: number;
   escrowBalance: number;
+  hideBalance?: boolean;
+  onToggleHideBalance?: () => void;
   transactions: Transaction[];
   defaultPhone?: string;
   shopName?: string;
@@ -40,6 +42,8 @@ export const WalletPage: React.FC<WalletPageProps> = ({
   vendorMode,
   balance,
   escrowBalance,
+  hideBalance: externalHideBalance,
+  onToggleHideBalance,
   transactions,
   defaultPhone,
   shopName,
@@ -47,7 +51,9 @@ export const WalletPage: React.FC<WalletPageProps> = ({
   onShowToast,
 }) => {
   const isFr = lang === 'fr';
-  const [hideBalance, setHideBalance] = useState(false);
+  const [localHideBalance, setLocalHideBalance] = useState(false);
+  const hideBalance = externalHideBalance ?? localHideBalance;
+  const toggleHideBalance = onToggleHideBalance ?? (() => setLocalHideBalance((v) => !v));
   const [provider, setProvider] = useState<'MTN MoMo' | 'Moov' | 'Celtiis Cash'>('MTN MoMo');
   const [phone, setPhone] = useState(defaultPhone || '+229 97 00 12 12');
   const [editingPhone, setEditingPhone] = useState(false);
@@ -129,7 +135,7 @@ export const WalletPage: React.FC<WalletPageProps> = ({
             </span>
             <button
               type="button"
-              onClick={() => setHideBalance((v) => !v)}
+              onClick={toggleHideBalance}
               className="inline-flex items-center gap-1.5 rounded-xl bg-white/15 hover:bg-white/25 px-3 py-1.5 text-xs font-semibold transition-colors"
             >
               {hideBalance ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}
@@ -428,7 +434,11 @@ export const WalletPage: React.FC<WalletPageProps> = ({
                         : 'text-[#13112B]'
                     }`}
                   >
-                    {tx.amount > 0 ? `+${formatFCFA(tx.amount)}` : formatFCFA(tx.amount)}
+                    {hideBalance
+                      ? `${tx.amount > 0 ? '+' : '-'}••• ••• FCFA`
+                      : tx.amount > 0
+                        ? `+${formatFCFA(tx.amount)}`
+                        : formatFCFA(tx.amount)}
                   </p>
                   <span
                     className={`inline-block mt-1 rounded-md px-2 py-0.5 text-[10px] font-bold ${

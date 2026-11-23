@@ -6,6 +6,8 @@ import {
   ChevronRight,
   Clock,
   CreditCard,
+  Eye,
+  EyeOff,
   Headphones,
   Megaphone,
   MessageSquare,
@@ -32,6 +34,8 @@ interface HubPageProps {
   lang: Lang;
   vendorMode: 'existing' | 'new';
   balance: number;
+  hideBalance?: boolean;
+  onToggleHideBalance?: () => void;
   orders: Order[];
   products: Product[];
   reviews: Review[];
@@ -47,6 +51,8 @@ export const HubPage: React.FC<HubPageProps> = ({
   lang,
   vendorMode,
   balance,
+  hideBalance = false,
+  onToggleHideBalance,
   orders,
   products,
   reviews,
@@ -161,28 +167,64 @@ export const HubPage: React.FC<HubPageProps> = ({
         {/* Hero Royal Purple Balance Card */}
         <section className="lg:col-span-6 rounded-3xl bg-gradient-to-br from-[#5B3BFF] via-[#4D26E2] to-[#3715C9] text-white p-5 sm:p-6 shadow-lg shadow-[#5433FF]/20 flex flex-col justify-between">
           <div>
-            <div className="flex items-start justify-between gap-3">
-              <div>
+            <div className="flex items-start justify-between gap-2.5">
+              <div className="min-w-0">
                 <p className="text-xs font-semibold text-white/85 flex items-center gap-1.5">
-                  <ShieldCheck className="w-3.5 h-3.5 text-[#34D399]" />
-                  <span>{labels.availableBalance}</span>
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#34D399] shrink-0" />
+                  <span className="truncate">{labels.availableBalance}</span>
                 </p>
                 <div className="mt-2 flex items-baseline gap-2">
                   <span className="text-3xl sm:text-4xl font-extrabold tracking-tight tabular-nums font-mono">
-                    {balance.toLocaleString('fr-FR')}
+                    {hideBalance ? '••• •••' : balance.toLocaleString('fr-FR')}
                   </span>
                   <span className="text-sm font-bold text-white/85">FCFA</span>
                 </div>
               </div>
 
-              <button
-                type="button"
-                onClick={() => onNavigate('wallet')}
-                className="inline-flex items-center gap-1.5 rounded-xl bg-white text-[#5433FF] hover:bg-[#F5F3FF] px-3.5 py-2.5 text-xs font-bold shadow-sm transition-colors whitespace-nowrap shrink-0 min-h-[40px]"
-              >
-                <CreditCard className="w-3.5 h-3.5" />
-                <span>{labels.withdraw}</span>
-              </button>
+              <div className="flex items-center gap-2 shrink-0">
+                {onToggleHideBalance && (
+                  <button
+                    type="button"
+                    onClick={onToggleHideBalance}
+                    aria-label={
+                      hideBalance
+                        ? isFr
+                          ? 'Afficher le solde'
+                          : 'Show balance'
+                        : isFr
+                          ? 'Masquer le solde'
+                          : 'Hide balance'
+                    }
+                    title={
+                      hideBalance
+                        ? isFr
+                          ? 'Afficher le solde'
+                          : 'Show balance'
+                        : isFr
+                          ? 'Masquer le solde'
+                          : 'Hide balance'
+                    }
+                    className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-white/15 hover:bg-white/25 text-white px-2.5 py-2.5 text-xs font-bold transition-colors min-h-[40px]"
+                  >
+                    {hideBalance ? (
+                      <Eye className="w-4 h-4" />
+                    ) : (
+                      <EyeOff className="w-4 h-4" />
+                    )}
+                    <span className="hidden sm:inline">
+                      {hideBalance ? (isFr ? 'Afficher' : 'Show') : isFr ? 'Masquer' : 'Hide'}
+                    </span>
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={() => onNavigate('wallet')}
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-white text-[#5433FF] hover:bg-[#F5F3FF] px-3.5 py-2.5 text-xs font-bold shadow-sm transition-colors whitespace-nowrap shrink-0 min-h-[40px]"
+                >
+                  <CreditCard className="w-3.5 h-3.5" />
+                  <span>{labels.withdraw}</span>
+                </button>
+              </div>
             </div>
           </div>
 
@@ -234,7 +276,7 @@ export const HubPage: React.FC<HubPageProps> = ({
               </div>
               <div className="mt-2">
                 <p className="text-lg sm:text-xl font-extrabold text-[#13112B] tabular-nums">
-                  {dailySalesText}{' '}
+                  {hideBalance ? '••• •••' : dailySalesText}{' '}
                   <span className="text-xs font-semibold text-[#7C7998]">FCFA</span>
                 </p>
                 {vendorMode === 'existing' ? (
@@ -306,7 +348,8 @@ export const HubPage: React.FC<HubPageProps> = ({
               </div>
               <div className="mt-2">
                 <p className="text-lg sm:text-xl font-extrabold text-[#13112B] tabular-nums">
-                  {weekVolumeText} <span className="text-xs font-semibold text-[#7C7998]">F</span>
+                  {hideBalance ? '••• •••' : weekVolumeText}{' '}
+                  <span className="text-xs font-semibold text-[#7C7998]">F</span>
                 </p>
                 <p
                   className={`mt-1 text-[11px] font-semibold ${

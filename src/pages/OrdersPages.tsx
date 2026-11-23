@@ -6,6 +6,8 @@ import {
   ChevronRight,
   Clock,
   Download,
+  Eye,
+  EyeOff,
   FileCheck,
   Filter,
   MapPin,
@@ -28,6 +30,8 @@ import { AvatarBadge, CotonouMapPreview, HandoverQR, ProductVisual } from '../co
 interface OrdersPageProps {
   lang: Lang;
   vendorMode?: 'existing' | 'new';
+  hideBalance?: boolean;
+  onToggleHideBalance?: () => void;
   orders: Order[];
   onNavigate: (page: PageId, contextId?: string) => void;
   onUpdateOrderStatus: (orderId: string, status: OrderStatus) => void;
@@ -37,6 +41,8 @@ interface OrdersPageProps {
 export const OrdersPage: React.FC<OrdersPageProps> = ({
   lang,
   vendorMode = 'existing',
+  hideBalance = false,
+  onToggleHideBalance,
   orders,
   onNavigate,
   onUpdateOrderStatus,
@@ -87,15 +93,35 @@ export const OrdersPage: React.FC<OrdersPageProps> = ({
           <span className="text-[11px] font-bold uppercase tracking-wider text-[#4B4869]">
             {isFr ? 'Aperçu Quotidien' : 'Daily Overview'}
           </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#ECFDF5] px-2.5 py-1 text-[11px] font-bold text-[#059669]">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />
-            {isFr ? 'En direct' : 'Live'}
-          </span>
+          <div className="flex items-center gap-2">
+            {onToggleHideBalance && (
+              <button
+                type="button"
+                onClick={onToggleHideBalance}
+                aria-label={
+                  hideBalance
+                    ? isFr
+                      ? 'Afficher les montants'
+                      : 'Show amounts'
+                    : isFr
+                      ? 'Masquer les montants'
+                      : 'Hide amounts'
+                }
+                className="w-7 h-7 rounded-lg bg-[#F5F5FA] hover:bg-[#ECEAF6] text-[#4B4869] flex items-center justify-center transition-colors"
+              >
+                {hideBalance ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}
+              </button>
+            )}
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#ECFDF5] px-2.5 py-1 text-[11px] font-bold text-[#059669]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />
+              {isFr ? 'En direct' : 'Live'}
+            </span>
+          </div>
         </div>
         <div className="mt-2.5 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-baseline gap-2">
             <span className="text-2xl sm:text-3xl font-extrabold text-[#13112B] tabular-nums">
-              {dailyTotal.toLocaleString('fr-FR')}
+              {hideBalance ? '••• •••' : dailyTotal.toLocaleString('fr-FR')}
             </span>
             <span className="text-sm font-bold text-[#5433FF]">FCFA</span>
           </div>

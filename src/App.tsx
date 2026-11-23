@@ -110,6 +110,7 @@ export default function App() {
     'minib_boost',
     false
   );
+  const [hideBalance, setHideBalance] = usePersistentState<boolean>('minib_hide_balance', false);
   const [toast, setToast] = useState<string | null>(null);
 
   const showToast = (msg: string) => {
@@ -366,6 +367,8 @@ export default function App() {
             lang={lang}
             vendorMode={vendorMode}
             balance={balance}
+            hideBalance={hideBalance}
+            onToggleHideBalance={() => setHideBalance((v) => !v)}
             orders={orders}
             products={products}
             reviews={reviews}
@@ -382,6 +385,8 @@ export default function App() {
           <OrdersPage
             lang={lang}
             vendorMode={vendorMode}
+            hideBalance={hideBalance}
+            onToggleHideBalance={() => setHideBalance((v) => !v)}
             orders={orders}
             onNavigate={handleNavigate}
             onUpdateOrderStatus={handleUpdateOrderStatus}
@@ -437,6 +442,8 @@ export default function App() {
             vendorMode={vendorMode}
             balance={balance}
             escrowBalance={escrowBalance}
+            hideBalance={hideBalance}
+            onToggleHideBalance={() => setHideBalance((v) => !v)}
             transactions={transactions}
             defaultPhone={settings.whatsapp}
             shopName={settings.shopName}
@@ -552,6 +559,8 @@ export default function App() {
           <MenuSettingsPage
             lang={lang}
             vendorMode={vendorMode}
+            hideBalance={hideBalance}
+            onToggleHideBalance={() => setHideBalance((v) => !v)}
             onToggleLang={setLang}
             settings={settings}
             onUpdateSettings={setSettings}
