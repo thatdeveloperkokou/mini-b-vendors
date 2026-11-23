@@ -42,7 +42,7 @@ export const PWAInstallButton: React.FC<PWAInstallButtonProps> = ({
             </div>
             <div className="min-w-0">
               <p className="text-sm font-bold text-[#13112B] truncate">
-                {lang === 'fr' ? 'Installer MINI-B Vendeur Pro' : 'Install MINI-B Vendor Pro'}
+                {lang === 'fr' ? 'Installer MINI-B Vendors' : 'Install MINI-B Vendors'}
               </p>
               <p className="text-xs text-[#4B4869] truncate">
                 {lang === 'fr'
@@ -61,9 +61,10 @@ export const PWAInstallButton: React.FC<PWAInstallButtonProps> = ({
           type="button"
           onClick={handleInstallClick}
           title={lang === 'fr' ? "Installer l'application PWA" : 'Install PWA App'}
-          className="inline-flex items-center gap-1.5 rounded-xl bg-[#F0EDFF] hover:bg-[#E4DEFF] text-[#5433FF] px-3 py-2 text-xs font-semibold transition-colors whitespace-nowrap shrink-0 min-h-[36px]"
+          className="inline-flex items-center gap-1.5 rounded-xl bg-[#F0EDFF] hover:bg-[#E4DEFF] text-[#5433FF] px-2.5 sm:px-3 py-1.5 sm:py-2 text-xs font-bold transition-colors whitespace-nowrap shrink-0 min-h-[36px]"
         >
-          <Download className="w-3.5 h-3.5" />
+          <Download className="w-3.5 h-3.5 shrink-0" />
+          <span className="sm:hidden">{lang === 'fr' ? 'Installer' : 'Install'}</span>
           <span className="hidden sm:inline">
             {lang === 'fr' ? 'Installer App' : 'Install App'}
           </span>

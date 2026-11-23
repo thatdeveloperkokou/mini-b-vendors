@@ -127,10 +127,8 @@ export const AppShell: React.FC<AppShellProps> = ({
                 <p className="text-[11px] text-[#7C7998] truncate">Cotonou · Benin</p>
               </div>
             </div>
-            <div className="flex items-center gap-2 shrink-0">
-              <div className="hidden sm:inline-flex">
-                <PWAInstallButton lang={lang} variant="compact" />
-              </div>
+            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+              <PWAInstallButton lang={lang} variant="compact" />
               <div className="inline-flex items-center rounded-xl bg-[#F2F1FA] p-0.5 border border-[#E7E4F6]">
                 {(['fr', 'en'] as const).map((code) => (
                   <button
@@ -313,10 +311,8 @@ export const AppShell: React.FC<AppShellProps> = ({
               </div>
             </div>
 
-            <div className="flex items-center gap-2 shrink-0">
-              <div className="hidden sm:inline-flex">
-                <PWAInstallButton lang={lang} variant="compact" />
-              </div>
+            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+              <PWAInstallButton lang={lang} variant="compact" />
 
               <div className="inline-flex items-center rounded-xl bg-[#F2F1FA] p-0.5 border border-[#E7E4F6]">
                 {(['fr', 'en'] as const).map((code) => (
@@ -338,7 +334,7 @@ export const AppShell: React.FC<AppShellProps> = ({
               <button
                 type="button"
                 onClick={() => onNavigate('notifications')}
-                className={`relative w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${
+                className={`relative w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center transition-colors ${
                   currentPage === 'notifications'
                     ? 'bg-[#F0EDFF] text-[#5433FF]'
                     : 'bg-[#F5F5FA] hover:bg-[#EAE8F5] text-[#13112B]'

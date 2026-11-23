@@ -23,6 +23,7 @@ import {
 import { Lang, PageId, VendorOnboardingPayload } from '../types/app';
 import { formatFCFA } from '../data/mockStore';
 import { AvatarBadge, getInitials, PRODUCT_PHOTO_MAP } from '../components/VisualAssets';
+import { PWAInstallButton } from '../components/PWAComponents';
 
 interface AuthPagesProps {
   lang: Lang;
@@ -367,6 +368,9 @@ export const AuthPages: React.FC<AuthPagesProps> = ({
             {isFr ? 'Se connecter avec numéro' : 'Sign in with phone'}
           </button>
         </div>
+
+        {/* Mobile & Desktop PWA Install Banner */}
+        <PWAInstallButton lang={lang} variant="banner" />
       </div>
     );
   }
